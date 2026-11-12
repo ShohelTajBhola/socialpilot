@@ -29,6 +29,8 @@ export const api = {
     redirectUri: string;
     isSupabaseConnected: boolean;
     supabaseUrl: string;
+    supabaseAnonKey: string;
+    supabaseConfigured: boolean;
   }>('/api/config'),
 
   // Auth & Session
@@ -44,6 +46,19 @@ export const api = {
   register: (data: { email: string; fullName: string; role?: string }) => request<{ user: UserProfile }>('/api/auth/register', {
     method: 'POST',
     body: JSON.stringify(data),
+  }),
+  syncSupabaseUser: (payload: {
+    id: string;
+    email: string;
+    fullName?: string;
+    avatarUrl?: string;
+    provider?: string;
+  }) => request<{ user: UserProfile; isNew: boolean }>('/api/auth/supabase-sync', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
+  logout: () => request<{ success: boolean }>('/api/auth/logout', {
+    method: 'POST',
   }),
 
   // Meta OAuth & Pages

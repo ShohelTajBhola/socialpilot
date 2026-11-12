@@ -58,6 +58,15 @@ app.get('/api/health', (req, res) => {
 app.get('/api/config', (req, res) => {
   const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || `http://localhost:${PORT}`;
   const redirectUri = process.env.META_REDIRECT_URI || `${appUrl}/auth/callback`;
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+
+  const isSupabaseConfigured = Boolean(
+    supabaseUrl &&
+    supabaseAnonKey &&
+    !supabaseUrl.includes('your-project') &&
+    supabaseAnonKey.length > 20
+  );
 
   res.json({
     metaAppId: process.env.META_APP_ID || '',
@@ -65,7 +74,9 @@ app.get('/api/config', (req, res) => {
     appUrl,
     redirectUri,
     isSupabaseConnected: db.isSupabaseConnected,
-    supabaseUrl: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    supabaseUrl,
+    supabaseAnonKey,
+    supabaseConfigured: isSupabaseConfigured,
   });
 });
 
@@ -86,7 +97,83 @@ app.post('/api/auth/switch-user', (req, res) => {
     return res.status(404).json({ error: 'User not found' });
   }
   currentUserId = user.id;
+  user.connectedPagesCount = db.facebookPages.filter((p) => p.userId === user.id && p.status === 'active').length;
   res.json({ user });
+});
+
+app.post('/api/auth/supabase-sync', async (req, res) => {
+  const { id, email, fullName, avatarUrl, provider } = req.body;
+  if (!id || !email) {
+    return res.status(400).json({ error: 'Supabase User ID and email are required for sync.' });
+  }
+
+  // Find user by ID or by email
+  let user = db.profiles.find((p) => p.id === id || p.email.toLowerCase() === email.toLowerCase());
+  const isNew = !user;
+
+  if (!user) {
+    user = {
+      id,
+      email: email.toLowerCase(),
+      fullName: fullName || email.split('@')[0],
+      avatarUrl: avatarUrl || undefined,
+      role: email.toLowerCase().includes('admin') ? 'admin' : 'user',
+      status: 'active',
+      maxPagesLimit: 100,
+      maxPostsPerDay: 100,
+      connectedPagesCount: 0,
+      createdAt: new Date().toISOString(),
+      lastLoginAt: new Date().toISOString(),
+    };
+    db.profiles.push(user);
+  } else {
+    // Update existing user
+    user.id = id;
+    if (fullName && (!user.fullName || user.fullName === user.email.split('@')[0])) {
+      user.fullName = fullName;
+    }
+    if (avatarUrl) user.avatarUrl = avatarUrl;
+    user.lastLoginAt = new Date().toISOString();
+    user.status = 'active';
+  }
+
+  currentUserId = user.id;
+
+  // Persist to Supabase DB if connected
+  if (db.isSupabaseConnected && db.supabase) {
+    try {
+      await db.supabase.from('profiles').upsert({
+        id: user.id,
+        email: user.email,
+        full_name: user.fullName,
+        avatar_url: user.avatarUrl,
+        role: user.role,
+        status: user.status,
+        max_pages_limit: user.maxPagesLimit,
+        max_posts_per_day: user.maxPostsPerDay,
+        last_login_at: user.lastLoginAt,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'id' });
+    } catch (dbErr) {
+      console.warn('[SocialPilot] Warning: Could not upsert profile directly into Supabase PostgreSQL:', dbErr);
+    }
+  }
+
+  db.auditLogs.unshift({
+    id: `audit_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    action: isNew ? 'USER_REGISTERED_OAUTH' : 'USER_LOGIN_OAUTH',
+    userId: user.id,
+    userEmail: user.email,
+    entityType: 'user',
+    entityId: user.id,
+    details: `Authenticated via ${provider || 'oauth'} (isNew: ${isNew})`,
+    createdAt: new Date().toISOString(),
+  });
+
+  db.saveToFile();
+  user.connectedPagesCount = db.facebookPages.filter((p) => p.userId === user.id && p.status === 'active').length;
+
+  res.json({ user, isNew });
 });
 
 app.post('/api/auth/login', (req, res) => {
@@ -96,7 +183,6 @@ app.post('/api/auth/login', (req, res) => {
   }
   let user = db.profiles.find((p) => p.email.toLowerCase() === email.toLowerCase());
   if (!user) {
-    // Auto-create or login default for seamless SaaS onboarding
     user = {
       id: `usr_${Date.now()}`,
       email: email.toLowerCase(),
@@ -164,7 +250,6 @@ app.get('/api/auth/facebook/url', (req, res) => {
   const redirectUri = process.env.META_REDIRECT_URI || `${appUrl}/auth/callback`;
 
   if (!appId || !appSecret) {
-    // Return setup required flag and helpful configuration instructions
     return res.json({
       configured: false,
       message: 'Meta App ID and Secret are not configured yet.',
@@ -183,18 +268,22 @@ app.get('/api/auth/facebook/url', (req, res) => {
   });
 });
 
-// Handle popup callback from Meta
+// Handle popup callback from Meta & Supabase Auth
 app.get(['/auth/callback', '/auth/callback/'], async (req, res) => {
-  const { code, error, error_description } = req.query;
+  const { code, state, error, error_description } = req.query;
 
+  // 1. Error returned from OAuth provider
   if (error) {
     return res.send(`
       <!DOCTYPE html>
       <html>
-        <head><title>Authentication Failed</title></head>
-        <body style="font-family: sans-serif; padding: 24px; text-align: center;">
-          <h2 style="color: #dc2626;">Facebook Authorization Declined</h2>
-          <p>${error_description || error}</p>
+        <head><title>Authentication Failed | SocialPilot 100+</title></head>
+        <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 32px; text-align: center; background: #0f172a; color: #f8fafc;">
+          <div style="max-width: 420px; margin: 40px auto; background: #1e293b; padding: 24px; border-radius: 12px; border: 1px solid #334155;">
+            <h2 style="color: #ef4444; font-size: 18px; margin-bottom: 8px;">OAuth Authorization Error</h2>
+            <p style="color: #94a3b8; font-size: 13px; line-height: 1.5;">${error_description || error}</p>
+            <p style="color: #64748b; font-size: 11px; margin-top: 16px;">This window will close automatically...</p>
+          </div>
           <script>
             if (window.opener) {
               window.opener.postMessage({ type: 'OAUTH_AUTH_ERROR', error: '${error_description || error}' }, '*');
@@ -206,17 +295,25 @@ app.get(['/auth/callback', '/auth/callback/'], async (req, res) => {
     `);
   }
 
-  if (code && process.env.META_APP_ID && process.env.META_APP_SECRET) {
+  // 2. Direct Meta Graph API Page Connection Callback (has state starting with 'state_')
+  const isMetaDirectCallback = Boolean(
+    code &&
+    typeof state === 'string' &&
+    state.startsWith('state_') &&
+    process.env.META_APP_ID &&
+    process.env.META_APP_SECRET
+  );
+
+  if (isMetaDirectCallback) {
     try {
       const appUrl = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || `http://localhost:${PORT}`;
       const redirectUri = process.env.META_REDIRECT_URI || `${appUrl}/auth/callback`;
-      const metaClient = new MetaGraphApiClient(process.env.META_APP_ID, process.env.META_APP_SECRET);
+      const metaClient = new MetaGraphApiClient(process.env.META_APP_ID!, process.env.META_APP_SECRET!);
 
       const tokenData = await metaClient.exchangeCodeForToken(code as string, redirectUri);
       const longLived = await metaClient.getLongLivedUserToken(tokenData.access_token);
       const managedPages = await metaClient.getManagedPages(longLived.access_token);
 
-      // Store pages for current user
       const user = getCurrentUser();
       let importedCount = 0;
 
@@ -249,14 +346,15 @@ app.get(['/auth/callback', '/auth/callback/'], async (req, res) => {
 
       db.saveToFile();
 
-      // Send success message to opener window and close popup
       return res.send(`
         <!DOCTYPE html>
         <html>
-          <head><title>Connected to Facebook</title></head>
-          <body style="font-family: sans-serif; padding: 24px; text-align: center;">
-            <h2 style="color: #16a34a;">Successfully Connected!</h2>
-            <p>Retrieved ${managedPages.length} authorized Facebook Pages. Closing window...</p>
+          <head><title>Connected to Facebook | SocialPilot 100+</title></head>
+          <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 32px; text-align: center; background: #0f172a; color: #f8fafc;">
+            <div style="max-width: 420px; margin: 40px auto; background: #1e293b; padding: 24px; border-radius: 12px; border: 1px solid #334155;">
+              <h2 style="color: #22c55e; font-size: 18px; margin-bottom: 8px;">Facebook Fleet Connected</h2>
+              <p style="color: #94a3b8; font-size: 13px;">Retrieved ${managedPages.length} authorized Facebook Pages. Closing window...</p>
+            </div>
             <script>
               if (window.opener) {
                 window.opener.postMessage({ type: 'OAUTH_AUTH_SUCCESS', count: ${managedPages.length} }, '*');
@@ -272,13 +370,16 @@ app.get(['/auth/callback', '/auth/callback/'], async (req, res) => {
       return res.send(`
         <!DOCTYPE html>
         <html>
-          <head><title>Connection Error</title></head>
-          <body style="font-family: sans-serif; padding: 24px; text-align: center;">
-            <h2 style="color: #dc2626;">Error Exchanging Token</h2>
-            <p>${err.message}</p>
+          <head><title>Connection Error | SocialPilot 100+</title></head>
+          <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 32px; text-align: center; background: #0f172a; color: #f8fafc;">
+            <div style="max-width: 420px; margin: 40px auto; background: #1e293b; padding: 24px; border-radius: 12px; border: 1px solid #334155;">
+              <h2 style="color: #ef4444; font-size: 18px; margin-bottom: 8px;">Token Exchange Error</h2>
+              <p style="color: #94a3b8; font-size: 13px;">${err.message}</p>
+            </div>
             <script>
               if (window.opener) {
                 window.opener.postMessage({ type: 'OAUTH_AUTH_ERROR', error: '${err.message}' }, '*');
+                setTimeout(() => window.close(), 2500);
               }
             </script>
           </body>
@@ -287,15 +388,44 @@ app.get(['/auth/callback', '/auth/callback/'], async (req, res) => {
     }
   }
 
-  // Fallback response
+  // 3. Supabase Auth OAuth Callback (Google or Facebook via Supabase)
+  // When Supabase completes OAuth, it redirects here with URL hash or PKCE code
   res.send(`
+    <!DOCTYPE html>
     <html>
-      <body style="font-family: sans-serif; padding: 24px; text-align: center;">
-        <p>Authentication completed. You can close this window.</p>
+      <head>
+        <title>Authenticating with Supabase | SocialPilot 100+</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 32px; text-align: center; background: #0f172a; color: #f8fafc; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0;">
+        <div style="max-width: 400px; width: 90%; background: #1e293b; padding: 28px; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);">
+          <div style="width: 40px; height: 40px; border: 3px solid #38bdf8; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px;"></div>
+          <h2 style="color: #38bdf8; font-size: 17px; font-weight: 700; margin: 0 0 6px;">Authenticating Account</h2>
+          <p style="color: #94a3b8; font-size: 12px; margin: 0 0 12px; line-height: 1.5;">Completing Supabase OAuth handshake and synchronizing user profile...</p>
+          <p style="color: #64748b; font-size: 11px; margin: 0;">This window should close automatically in a moment.</p>
+        </div>
+        <style>
+          @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        </style>
         <script>
+          // Deliver OAuth callback payload to parent/opener window
+          var hash = window.location.hash || '';
+          var search = window.location.search || '';
+
           if (window.opener) {
-            window.opener.postMessage({ type: 'OAUTH_AUTH_SUCCESS' }, '*');
-            setTimeout(() => window.close(), 800);
+            window.opener.postMessage({
+              type: 'SUPABASE_OAUTH_SUCCESS',
+              hash: hash,
+              search: search
+            }, '*');
+            setTimeout(function() {
+              window.close();
+            }, 600);
+          } else {
+            // Standalone redirect: forward to root preserving hash or query for client-side Supabase PKCE / session pickup
+            setTimeout(function() {
+              window.location.href = '/' + (hash || search);
+            }, 400);
           }
         </script>
       </body>

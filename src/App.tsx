@@ -12,6 +12,7 @@ import { SetupGuidesView } from './views/SetupGuidesView';
 import { PostDetailModal } from './views/PostDetailModal';
 import { AuthModal } from './components/AuthModal';
 import { api } from './lib/api';
+import { initSupabase, getSupabase, handleSupabaseOAuthCallback } from './lib/supabase';
 import type { UserProfile, FacebookPage, Post, PostTarget, PublishingLog, AuditLog, SystemSettings, PlatformMetrics } from './types';
 
 function MainApp() {
@@ -57,12 +58,18 @@ function MainApp() {
     appUrl: string;
     redirectUri: string;
     isSupabaseConnected: boolean;
+    supabaseUrl: string;
+    supabaseAnonKey: string;
+    supabaseConfigured: boolean;
   }>({
     metaAppId: '',
     metaAppConfigured: false,
     appUrl: '',
     redirectUri: '',
     isSupabaseConnected: false,
+    supabaseUrl: '',
+    supabaseAnonKey: '',
+    supabaseConfigured: false,
   });
 
   // UI state
@@ -93,6 +100,9 @@ function MainApp() {
       ]);
 
       setConfig(cfgRes);
+      if (cfgRes.supabaseUrl && cfgRes.supabaseAnonKey) {
+        initSupabase(cfgRes.supabaseUrl, cfgRes.supabaseAnonKey);
+      }
       setCurrentUser(meRes.user);
       setPages(pagesRes.pages);
       setPosts(postsRes.posts);
@@ -130,19 +140,104 @@ function MainApp() {
     return () => clearInterval(interval);
   }, [loadData]);
 
-  // Listen for popup OAuth messages
+  // Synchronize Supabase user profile
+  const syncSupabaseProfile = useCallback(
+    async (supabaseUser: any) => {
+      if (!supabaseUser || !supabaseUser.email) return;
+      try {
+        const syncRes = await api.syncSupabaseUser({
+          id: supabaseUser.id,
+          email: supabaseUser.email,
+          fullName:
+            supabaseUser.user_metadata?.full_name ||
+            supabaseUser.user_metadata?.name ||
+            supabaseUser.email.split('@')[0],
+          avatarUrl:
+            supabaseUser.user_metadata?.avatar_url ||
+            supabaseUser.user_metadata?.picture,
+          provider: supabaseUser.app_metadata?.provider || 'oauth',
+        });
+        setCurrentUser(syncRes.user);
+        setIsAuthModalOpen(false);
+        success(
+          syncRes.isNew ? 'Account Created & Authenticated' : 'Welcome Back!',
+          `Signed in as ${syncRes.user.fullName} (${syncRes.user.role.replace('_', ' ')})`
+        );
+        loadData(true);
+      } catch (err: any) {
+        error('Profile Synchronization Failed', err.message);
+      }
+    },
+    [success, error, loadData]
+  );
+
+  // Check URL hash/query on mount for standalone OAuth redirects (PKCE or implicit)
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
+    const handleUrlCallback = async () => {
+      if (window.location.hash.includes('access_token=') || window.location.search.includes('code=')) {
+        const res = await handleSupabaseOAuthCallback();
+        if (res.user) {
+          syncSupabaseProfile(res.user);
+          // Clean URL without full reload
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    };
+    handleUrlCallback();
+  }, [syncSupabaseProfile]);
+
+  // Listen for popup OAuth messages & Supabase auth state change
+  useEffect(() => {
+    const handleMessage = async (event: MessageEvent) => {
+      // 1. Meta Pages OAuth Direct Success
       if (event.data?.type === 'OAUTH_AUTH_SUCCESS') {
-        success('Facebook Connected', `Imported authorized Facebook Pages successfully.`);
+        success('Facebook Connected', 'Imported authorized Facebook Pages successfully.');
         loadData();
       } else if (event.data?.type === 'OAUTH_AUTH_ERROR') {
         error('Facebook OAuth Error', event.data.error || 'Authorization failed');
       }
+
+      // 2. Supabase Auth OAuth Success from popup
+      if (event.data?.type === 'SUPABASE_OAUTH_SUCCESS') {
+        const supabase = getSupabase();
+        if (supabase) {
+          // Allow session to propagate in client store
+          setTimeout(async () => {
+            const { data: { session }, error: sessionErr } = await supabase.auth.getSession();
+            if (session?.user) {
+              await syncSupabaseProfile(session.user);
+            } else {
+              const { data: { user } } = await supabase.auth.getUser();
+              if (user) {
+                await syncSupabaseProfile(user);
+              }
+            }
+          }, 400);
+        }
+      }
     };
+
     window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [success, error, loadData]);
+
+    // Also attach to Supabase Auth state listener if initialized
+    let authListenerSubscription: { unsubscribe: () => void } | null = null;
+    const supabase = getSupabase();
+    if (supabase) {
+      const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          await syncSupabaseProfile(session.user);
+        }
+      });
+      authListenerSubscription = data.subscription;
+    }
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+      if (authListenerSubscription) {
+        authListenerSubscription.unsubscribe();
+      }
+    };
+  }, [success, error, loadData, syncSupabaseProfile]);
 
   // Handle Meta Facebook OAuth Connect
   const handleConnectFacebook = async () => {
@@ -510,6 +605,7 @@ function MainApp() {
               appUrl={config.appUrl}
               redirectUri={config.redirectUri}
               metaAppId={config.metaAppId}
+              supabaseUrl={config.supabaseUrl}
             />
           )}
         </main>
@@ -537,6 +633,7 @@ function MainApp() {
           onSwitchUser={handleSwitchUser}
           onLogin={handleLogin}
           onRegister={handleRegister}
+          onOpenGuides={() => setCurrentTab('guides')}
           onClose={() => setIsAuthModalOpen(false)}
         />
       )}

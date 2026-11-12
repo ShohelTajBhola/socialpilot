@@ -266,3 +266,32 @@ VALUES
   ('meta_api', '{"apiVersion": "v19.0", "rateLimitPerMinute": 200, "maxRetryAttempts": 3, "retryBackoffSeconds": 5}'::jsonb),
   ('queue', '{"workerIntervalSec": 5, "batchSize": 25, "jobLockTimeoutSec": 60}'::jsonb)
 ON CONFLICT (key) DO NOTHING;
+
+-- ==============================================================================
+-- AUTOMATIC PROFILE CREATION TRIGGER (FOR GOOGLE & FACEBOOK OAUTH LOGINS)
+-- ==============================================================================
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.profiles (id, email, full_name, avatar_url, role)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
+    COALESCE(NEW.raw_user_meta_data->>'avatar_url', NEW.raw_user_meta_data->>'picture', NULL),
+    CASE WHEN NEW.email ILIKE '%admin%' THEN 'admin' ELSE 'user' END
+  )
+  ON CONFLICT (id) DO UPDATE SET
+    email = EXCLUDED.email,
+    full_name = CASE WHEN public.profiles.full_name = '' THEN EXCLUDED.full_name ELSE public.profiles.full_name END,
+    avatar_url = COALESCE(EXCLUDED.avatar_url, public.profiles.avatar_url),
+    updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT OR UPDATE ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+

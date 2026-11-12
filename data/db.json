@@ -1,0 +1,771 @@
+{
+  "profiles": [
+    {
+      "id": "usr_super_admin",
+      "email": "superadmin@socialpilot.io",
+      "fullName": "Alex Vance (Super Admin)",
+      "role": "super_admin",
+      "status": "active",
+      "maxPagesLimit": 1000,
+      "maxPostsPerDay": 500,
+      "connectedPagesCount": 12,
+      "createdAt": "2026-10-13T03:30:58.297Z",
+      "lastLoginAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "usr_shohel",
+      "email": "soheltajbhola@gmail.com",
+      "fullName": "Shohel Taj (Admin)",
+      "role": "admin",
+      "status": "active",
+      "maxPagesLimit": 500,
+      "maxPostsPerDay": 200,
+      "connectedPagesCount": 8,
+      "createdAt": "2026-10-23T03:30:58.297Z",
+      "lastLoginAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "usr_sarah",
+      "email": "marketing@socialpilot.io",
+      "fullName": "Sarah Chen (Publisher)",
+      "role": "user",
+      "status": "active",
+      "maxPagesLimit": 50,
+      "maxPostsPerDay": 50,
+      "connectedPagesCount": 4,
+      "createdAt": "2026-11-02T03:30:58.297Z",
+      "lastLoginAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "test-oauth-uid-123",
+      "email": "testoauth@gmail.com",
+      "fullName": "Test OAuth User",
+      "avatarUrl": "https://lh3.googleusercontent.com/test",
+      "role": "user",
+      "status": "active",
+      "maxPagesLimit": 100,
+      "maxPostsPerDay": 100,
+      "connectedPagesCount": 0,
+      "createdAt": "2026-11-12T03:47:04.409Z",
+      "lastLoginAt": "2026-11-12T03:47:04.409Z"
+    }
+  ],
+  "facebookPages": [
+    {
+      "id": "109283746501928",
+      "userId": "usr_shohel",
+      "name": "TechPulse Daily Tech News",
+      "category": "Media/News Company",
+      "fanCount": 384000,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.298Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.298Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "209384756102938",
+      "userId": "usr_shohel",
+      "name": "Global SaaS Architects",
+      "category": "Software Company",
+      "fanCount": 92400,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.298Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.298Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "304958671928374",
+      "userId": "usr_shohel",
+      "name": "EcoLiving Innovations Hub",
+      "category": "Community & Culture",
+      "fanCount": 145000,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.298Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.298Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "409586719283746",
+      "userId": "usr_shohel",
+      "name": "NextGen AI & Cloud Insights",
+      "category": "Science & Tech",
+      "fanCount": 68200,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.298Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.298Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "509687129384756",
+      "userId": "usr_shohel",
+      "name": "Vanguard Retail & Commerce",
+      "category": "E-commerce Brand",
+      "fanCount": 219000,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.299Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.299Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "609788139485766",
+      "userId": "usr_shohel",
+      "name": "Apex Fitness & Health Club",
+      "category": "Fitness & Wellness",
+      "fanCount": 78500,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.299Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.299Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "709889149586776",
+      "userId": "usr_shohel",
+      "name": "Urban Culinary Journal",
+      "category": "Restaurant & Dining",
+      "fanCount": 112000,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.299Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.299Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "809990159687786",
+      "userId": "usr_shohel",
+      "name": "Skyline Real Estate Ventures",
+      "category": "Real Estate Company",
+      "fanCount": 43200,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.299Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.299Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "901001169788796",
+      "userId": "usr_super_admin",
+      "name": "Horizon Ventures Asia",
+      "category": "Financial Service",
+      "fanCount": 54100,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.299Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.299Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "101112179889806",
+      "userId": "usr_super_admin",
+      "name": "CyberSec Shield Enterprise",
+      "category": "Internet Company",
+      "fanCount": 88700,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.299Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.299Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "111213189990816",
+      "userId": "usr_super_admin",
+      "name": "Nordic Design Collective",
+      "category": "Design Agency",
+      "fanCount": 32900,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.299Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.299Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    },
+    {
+      "id": "121314190001826",
+      "userId": "usr_super_admin",
+      "name": "Velocity Motors Global",
+      "category": "Automotive",
+      "fanCount": 198000,
+      "pictureUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop",
+      "tasks": [
+        "MANAGE",
+        "CREATE_CONTENT",
+        "MODERATE",
+        "ADVERTISE",
+        "ANALYZE"
+      ],
+      "connectedAt": "2026-11-07T03:30:58.299Z",
+      "tokenExpiresAt": "2027-01-06T03:30:58.299Z",
+      "status": "active",
+      "lastSyncAt": "2026-11-12T03:30:58.296Z"
+    }
+  ],
+  "posts": [
+    {
+      "id": "post_launch_announcement",
+      "userId": "usr_shohel",
+      "authorName": "Shohel Taj",
+      "content": "Excited to announce the major release of our new platform architecture! Scalable to 1,000+ multi-page distributions with zero latency.",
+      "linkUrl": "https://socialpilot.io/blog/architecture-release",
+      "mediaType": "link",
+      "status": "published",
+      "timezone": "UTC",
+      "targetCount": 4,
+      "publishedCount": 4,
+      "failedCount": 0,
+      "createdAt": "2026-11-11T03:30:58.299Z",
+      "updatedAt": "2026-11-11T04:30:58.299Z"
+    },
+    {
+      "id": "post_weekly_tips",
+      "userId": "usr_shohel",
+      "authorName": "Shohel Taj",
+      "content": "5 Essential habits for scaling your community across 100+ social channels without burning out your editorial team.",
+      "mediaType": "none",
+      "status": "published",
+      "timezone": "America/New_York",
+      "targetCount": 3,
+      "publishedCount": 3,
+      "failedCount": 0,
+      "createdAt": "2026-11-11T15:30:58.299Z",
+      "updatedAt": "2026-11-11T16:30:58.299Z"
+    },
+    {
+      "id": "post_scheduled_drop",
+      "userId": "usr_shohel",
+      "authorName": "Shohel Taj",
+      "content": "Special Friday Product Spotlight: Dive into automated queue processing with exponential backoff and rate-limit guardrails.",
+      "linkUrl": "https://socialpilot.io/spotlight",
+      "mediaType": "link",
+      "status": "published",
+      "scheduledFor": "2026-11-12T05:30:58.299Z",
+      "timezone": "UTC",
+      "targetCount": 5,
+      "publishedCount": 5,
+      "failedCount": 0,
+      "createdAt": "2026-11-12T01:30:58.299Z",
+      "updatedAt": "2026-11-12T03:31:03.604Z"
+    }
+  ],
+  "targets": [
+    {
+      "id": "tgt_post_launch_announcement_109283746501928",
+      "postId": "post_launch_announcement",
+      "pageId": "109283746501928",
+      "pageName": "TechPulse Daily Tech News",
+      "status": "published",
+      "facebookPostId": "109283746501928_982736450190",
+      "publishedAt": "2026-11-11T04:30:58.300Z",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "lastAttemptAt": "2026-11-11T04:30:58.300Z",
+      "idempotencyKey": "idemp_post_launch_announcement_109283746501928"
+    },
+    {
+      "id": "tgt_post_launch_announcement_209384756102938",
+      "postId": "post_launch_announcement",
+      "pageId": "209384756102938",
+      "pageName": "Global SaaS Architects",
+      "status": "published",
+      "facebookPostId": "209384756102938_982736450191",
+      "publishedAt": "2026-11-11T04:31:00.300Z",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "lastAttemptAt": "2026-11-11T04:31:00.300Z",
+      "idempotencyKey": "idemp_post_launch_announcement_209384756102938"
+    },
+    {
+      "id": "tgt_post_launch_announcement_304958671928374",
+      "postId": "post_launch_announcement",
+      "pageId": "304958671928374",
+      "pageName": "EcoLiving Innovations Hub",
+      "status": "published",
+      "facebookPostId": "304958671928374_982736450192",
+      "publishedAt": "2026-11-11T04:31:02.300Z",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "lastAttemptAt": "2026-11-11T04:31:02.300Z",
+      "idempotencyKey": "idemp_post_launch_announcement_304958671928374"
+    },
+    {
+      "id": "tgt_post_launch_announcement_409586719283746",
+      "postId": "post_launch_announcement",
+      "pageId": "409586719283746",
+      "pageName": "NextGen AI & Cloud Insights",
+      "status": "published",
+      "facebookPostId": "409586719283746_982736450193",
+      "publishedAt": "2026-11-11T04:31:04.300Z",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "lastAttemptAt": "2026-11-11T04:31:04.300Z",
+      "idempotencyKey": "idemp_post_launch_announcement_409586719283746"
+    },
+    {
+      "id": "tgt_post_scheduled_drop_109283746501928",
+      "postId": "post_scheduled_drop",
+      "pageId": "109283746501928",
+      "pageName": "TechPulse Daily Tech News",
+      "status": "published",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "idempotencyKey": "idemp_post_scheduled_drop_109283746501928",
+      "lastAttemptAt": "2026-11-12T03:31:03.303Z",
+      "facebookPostId": "109283746501928_1794454263603113",
+      "publishedAt": "2026-11-12T03:31:03.603Z"
+    },
+    {
+      "id": "tgt_post_scheduled_drop_209384756102938",
+      "postId": "post_scheduled_drop",
+      "pageId": "209384756102938",
+      "pageName": "Global SaaS Architects",
+      "status": "published",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "idempotencyKey": "idemp_post_scheduled_drop_209384756102938",
+      "lastAttemptAt": "2026-11-12T03:31:03.303Z",
+      "facebookPostId": "209384756102938_1794454263603928",
+      "publishedAt": "2026-11-12T03:31:03.603Z"
+    },
+    {
+      "id": "tgt_post_scheduled_drop_304958671928374",
+      "postId": "post_scheduled_drop",
+      "pageId": "304958671928374",
+      "pageName": "EcoLiving Innovations Hub",
+      "status": "published",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "idempotencyKey": "idemp_post_scheduled_drop_304958671928374",
+      "lastAttemptAt": "2026-11-12T03:31:03.303Z",
+      "facebookPostId": "304958671928374_1794454263604213",
+      "publishedAt": "2026-11-12T03:31:03.604Z"
+    },
+    {
+      "id": "tgt_post_scheduled_drop_409586719283746",
+      "postId": "post_scheduled_drop",
+      "pageId": "409586719283746",
+      "pageName": "NextGen AI & Cloud Insights",
+      "status": "published",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "idempotencyKey": "idemp_post_scheduled_drop_409586719283746",
+      "lastAttemptAt": "2026-11-12T03:31:03.303Z",
+      "facebookPostId": "409586719283746_1794454263604325",
+      "publishedAt": "2026-11-12T03:31:03.604Z"
+    },
+    {
+      "id": "tgt_post_scheduled_drop_509687129384756",
+      "postId": "post_scheduled_drop",
+      "pageId": "509687129384756",
+      "pageName": "Vanguard Retail & Commerce",
+      "status": "published",
+      "attempts": 1,
+      "maxAttempts": 3,
+      "idempotencyKey": "idemp_post_scheduled_drop_509687129384756",
+      "lastAttemptAt": "2026-11-12T03:31:03.303Z",
+      "facebookPostId": "509687129384756_1794454263604813",
+      "publishedAt": "2026-11-12T03:31:03.604Z"
+    }
+  ],
+  "publishingLogs": [
+    {
+      "id": "log_1794454263604_pq0gd",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_509687129384756",
+      "pageId": "509687129384756",
+      "pageName": "Vanguard Retail & Commerce",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Successfully published to Facebook Page [Vanguard Retail & Commerce]. Meta Graph API Post ID: 509687129384756_1794454263604813",
+      "createdAt": "2026-11-12T03:31:03.604Z"
+    },
+    {
+      "id": "log_1794454263604_ghmro",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_409586719283746",
+      "pageId": "409586719283746",
+      "pageName": "NextGen AI & Cloud Insights",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Successfully published to Facebook Page [NextGen AI & Cloud Insights]. Meta Graph API Post ID: 409586719283746_1794454263604325",
+      "createdAt": "2026-11-12T03:31:03.604Z"
+    },
+    {
+      "id": "log_1794454263604_ik2bp",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_304958671928374",
+      "pageId": "304958671928374",
+      "pageName": "EcoLiving Innovations Hub",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Successfully published to Facebook Page [EcoLiving Innovations Hub]. Meta Graph API Post ID: 304958671928374_1794454263604213",
+      "createdAt": "2026-11-12T03:31:03.604Z"
+    },
+    {
+      "id": "log_1794454263603_afect",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_209384756102938",
+      "pageId": "209384756102938",
+      "pageName": "Global SaaS Architects",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Successfully published to Facebook Page [Global SaaS Architects]. Meta Graph API Post ID: 209384756102938_1794454263603928",
+      "createdAt": "2026-11-12T03:31:03.603Z"
+    },
+    {
+      "id": "log_1794454263603_ss8wf",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_109283746501928",
+      "pageId": "109283746501928",
+      "pageName": "TechPulse Daily Tech News",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Successfully published to Facebook Page [TechPulse Daily Tech News]. Meta Graph API Post ID: 109283746501928_1794454263603113",
+      "createdAt": "2026-11-12T03:31:03.603Z"
+    },
+    {
+      "id": "log_1794454263303_ff48z",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_509687129384756",
+      "pageId": "509687129384756",
+      "pageName": "Vanguard Retail & Commerce",
+      "userId": "usr_shohel",
+      "action": "publish_attempt",
+      "status": "info",
+      "message": "Attempt #1/3: Initiating Meta Graph API publish to Facebook Page [Vanguard Retail & Commerce] (ID: 509687129384756)",
+      "createdAt": "2026-11-12T03:31:03.303Z"
+    },
+    {
+      "id": "log_1794454263303_gt2ro",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_409586719283746",
+      "pageId": "409586719283746",
+      "pageName": "NextGen AI & Cloud Insights",
+      "userId": "usr_shohel",
+      "action": "publish_attempt",
+      "status": "info",
+      "message": "Attempt #1/3: Initiating Meta Graph API publish to Facebook Page [NextGen AI & Cloud Insights] (ID: 409586719283746)",
+      "createdAt": "2026-11-12T03:31:03.303Z"
+    },
+    {
+      "id": "log_1794454263303_vdnjf",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_304958671928374",
+      "pageId": "304958671928374",
+      "pageName": "EcoLiving Innovations Hub",
+      "userId": "usr_shohel",
+      "action": "publish_attempt",
+      "status": "info",
+      "message": "Attempt #1/3: Initiating Meta Graph API publish to Facebook Page [EcoLiving Innovations Hub] (ID: 304958671928374)",
+      "createdAt": "2026-11-12T03:31:03.303Z"
+    },
+    {
+      "id": "log_1794454263303_q5hom",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_209384756102938",
+      "pageId": "209384756102938",
+      "pageName": "Global SaaS Architects",
+      "userId": "usr_shohel",
+      "action": "publish_attempt",
+      "status": "info",
+      "message": "Attempt #1/3: Initiating Meta Graph API publish to Facebook Page [Global SaaS Architects] (ID: 209384756102938)",
+      "createdAt": "2026-11-12T03:31:03.303Z"
+    },
+    {
+      "id": "log_1794454263303_k7kaw",
+      "postId": "post_scheduled_drop",
+      "jobId": "tgt_post_scheduled_drop_109283746501928",
+      "pageId": "109283746501928",
+      "pageName": "TechPulse Daily Tech News",
+      "userId": "usr_shohel",
+      "action": "publish_attempt",
+      "status": "info",
+      "message": "Attempt #1/3: Initiating Meta Graph API publish to Facebook Page [TechPulse Daily Tech News] (ID: 109283746501928)",
+      "createdAt": "2026-11-12T03:31:03.303Z"
+    },
+    {
+      "id": "log_post_launch_announcement_109283746501928",
+      "postId": "post_launch_announcement",
+      "jobId": "job_post_launch_announcement_109283746501928",
+      "pageId": "109283746501928",
+      "pageName": "TechPulse Daily Tech News",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Published successfully to Facebook Page [TechPulse Daily Tech News]. Graph API ID: 109283746501928_982736450190",
+      "createdAt": "2026-11-11T04:30:58.300Z"
+    },
+    {
+      "id": "log_post_launch_announcement_209384756102938",
+      "postId": "post_launch_announcement",
+      "jobId": "job_post_launch_announcement_209384756102938",
+      "pageId": "209384756102938",
+      "pageName": "Global SaaS Architects",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Published successfully to Facebook Page [Global SaaS Architects]. Graph API ID: 209384756102938_982736450191",
+      "createdAt": "2026-11-11T04:31:00.300Z"
+    },
+    {
+      "id": "log_post_launch_announcement_304958671928374",
+      "postId": "post_launch_announcement",
+      "jobId": "job_post_launch_announcement_304958671928374",
+      "pageId": "304958671928374",
+      "pageName": "EcoLiving Innovations Hub",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Published successfully to Facebook Page [EcoLiving Innovations Hub]. Graph API ID: 304958671928374_982736450192",
+      "createdAt": "2026-11-11T04:31:02.300Z"
+    },
+    {
+      "id": "log_post_launch_announcement_409586719283746",
+      "postId": "post_launch_announcement",
+      "jobId": "job_post_launch_announcement_409586719283746",
+      "pageId": "409586719283746",
+      "pageName": "NextGen AI & Cloud Insights",
+      "userId": "usr_shohel",
+      "action": "publish_success",
+      "status": "success",
+      "message": "Published successfully to Facebook Page [NextGen AI & Cloud Insights]. Graph API ID: 409586719283746_982736450193",
+      "createdAt": "2026-11-11T04:31:04.300Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "audit_1794455224409_brx8p",
+      "action": "USER_REGISTERED_OAUTH",
+      "userId": "test-oauth-uid-123",
+      "userEmail": "testoauth@gmail.com",
+      "entityType": "user",
+      "entityId": "test-oauth-uid-123",
+      "details": "Authenticated via google (isNew: true)",
+      "createdAt": "2026-11-12T03:47:04.409Z"
+    },
+    {
+      "id": "aud_1794454263604",
+      "userId": "usr_shohel",
+      "userEmail": "Shohel Taj",
+      "action": "POST_PUBLISHED",
+      "entityType": "post",
+      "entityId": "post_scheduled_drop",
+      "details": "Published to Facebook Page [Vanguard Retail & Commerce] with ID 509687129384756_1794454263604813",
+      "createdAt": "2026-11-12T03:31:03.604Z"
+    },
+    {
+      "id": "aud_1794454263604",
+      "userId": "usr_shohel",
+      "userEmail": "Shohel Taj",
+      "action": "POST_PUBLISHED",
+      "entityType": "post",
+      "entityId": "post_scheduled_drop",
+      "details": "Published to Facebook Page [NextGen AI & Cloud Insights] with ID 409586719283746_1794454263604325",
+      "createdAt": "2026-11-12T03:31:03.604Z"
+    },
+    {
+      "id": "aud_1794454263604",
+      "userId": "usr_shohel",
+      "userEmail": "Shohel Taj",
+      "action": "POST_PUBLISHED",
+      "entityType": "post",
+      "entityId": "post_scheduled_drop",
+      "details": "Published to Facebook Page [EcoLiving Innovations Hub] with ID 304958671928374_1794454263604213",
+      "createdAt": "2026-11-12T03:31:03.604Z"
+    },
+    {
+      "id": "aud_1794454263603",
+      "userId": "usr_shohel",
+      "userEmail": "Shohel Taj",
+      "action": "POST_PUBLISHED",
+      "entityType": "post",
+      "entityId": "post_scheduled_drop",
+      "details": "Published to Facebook Page [Global SaaS Architects] with ID 209384756102938_1794454263603928",
+      "createdAt": "2026-11-12T03:31:03.603Z"
+    },
+    {
+      "id": "aud_1794454263603",
+      "userId": "usr_shohel",
+      "userEmail": "Shohel Taj",
+      "action": "POST_PUBLISHED",
+      "entityType": "post",
+      "entityId": "post_scheduled_drop",
+      "details": "Published to Facebook Page [TechPulse Daily Tech News] with ID 109283746501928_1794454263603113",
+      "createdAt": "2026-11-12T03:31:03.603Z"
+    },
+    {
+      "id": "aud_1",
+      "userId": "usr_shohel",
+      "userEmail": "soheltajbhola@gmail.com",
+      "action": "OAUTH_CONNECT",
+      "entityType": "page",
+      "entityId": "109283746501928",
+      "details": "Connected 8 Facebook Pages via Meta Graph API v19 with pages_manage_posts scope",
+      "createdAt": "2026-11-07T03:30:58.300Z"
+    },
+    {
+      "id": "aud_2",
+      "userId": "usr_shohel",
+      "userEmail": "soheltajbhola@gmail.com",
+      "action": "POST_PUBLISH_BULK",
+      "entityType": "post",
+      "entityId": "post_launch_announcement",
+      "details": "Dispatched post to 4 target Facebook Pages simultaneously",
+      "createdAt": "2026-11-11T03:30:58.300Z"
+    },
+    {
+      "id": "aud_3",
+      "userId": "usr_super_admin",
+      "userEmail": "superadmin@socialpilot.io",
+      "action": "ROLE_UPDATE",
+      "entityType": "user",
+      "entityId": "usr_shohel",
+      "details": "Promoted Shohel Taj to Platform Admin role",
+      "createdAt": "2026-10-28T03:30:58.300Z"
+    }
+  ],
+  "systemSettings": {
+    "metaAppId": "",
+    "metaAppConfigured": false,
+    "rateLimitPerMinute": 200,
+    "maxConcurrentJobs": 5,
+    "maxRetryAttempts": 3,
+    "retryBackoffSeconds": 5,
+    "queueProcessingIntervalSec": 5,
+    "logRetentionDays": 30
+  },
+  "tokens": [
+    {
+      "pageId": "109283746501928",
+      "encryptedToken": "37a17129b6baa056579f03fa:0b27bf72db8e9de50ef29e3cbee8f7ce:7e56a153bc67c625e10791068de00967609c4e5c78b7374b3073dd4967a689ceaebbfe26b4f6f4e5ef60c7"
+    },
+    {
+      "pageId": "209384756102938",
+      "encryptedToken": "f0febb3d0464dc176a21f06d:46ee7d9c2a4d893bce713eb0e4920762:61a8e9c3af5e538fba297d69884e28ff1c9b7dde6a88a28335711691754a06794593ad4749935b07dd8d3b"
+    },
+    {
+      "pageId": "304958671928374",
+      "encryptedToken": "1b0ea17559c09beb2f682c4e:7cbf3021d114d44a239809024b2b2b0b:955bdd4d08e44cab42dabc61ac3241d10c360e7dbf48bcc638de638a64c0984aa6aa65b6a9ee4d868c7ac0"
+    },
+    {
+      "pageId": "409586719283746",
+      "encryptedToken": "c355d73ebe55ecf9c05df101:0411cdfadf648264eb9d2fadc7ae1f26:1680ca95056d6d4a25184b955050f8a28011f148bc3ff19d266a323146f3f0a30b6116724020f648c0b115"
+    },
+    {
+      "pageId": "509687129384756",
+      "encryptedToken": "eeccb90e04e094ecfd63dd9e:db121cabe8d527f5d7cfdd5aef14369a:2833ab0637be55c6fbba5c84aced308a7c816ac9f1a2416f22c8edd645486c165f7f1b7da18705e9a3d89d"
+    },
+    {
+      "pageId": "609788139485766",
+      "encryptedToken": "1ef04137eec098c2b4c29e48:173052412fe92b0fc390919e421016b6:f3bf9e15a820a672be0d0c97c7b8ff42794dabdd0a32c4d65dc46d81ffd2545360708ecd05600394bf3241"
+    },
+    {
+      "pageId": "709889149586776",
+      "encryptedToken": "131b2e06c19b9cdb7fd57342:fbab8ec651ede5cd2f3c1d911d288335:49c250ffdc4fde128c10a3073436caeeb75bb4823ab979ff9e7e73eeaad9895f8a832fe6c8d556514ea5ab"
+    },
+    {
+      "pageId": "809990159687786",
+      "encryptedToken": "e6cd08ff73cef0b8be68e459:979d0caa5619952aa84f49f4e84fb092:42e7db71880de045ccd09e99cc9c963652757bdfd06b97473117b2338f003be106190b56192327c9298713"
+    },
+    {
+      "pageId": "901001169788796",
+      "encryptedToken": "36c1407084e04d1e11824240:fa5e75fe0c9ad2398627ed97e1e48ffb:42c48f02aba2bd736fcb93cb6c57365319eebad9bd5c0f0a3c64173a7a960289b502ad02d2c064f21fb057"
+    },
+    {
+      "pageId": "101112179889806",
+      "encryptedToken": "658321e729e513eca2f54440:a1cab894ae84bdf537d22557efcbbeb2:ea9319161e3da0542e6718b6f8f5e2387083a853e3d0b6d900b062a5cf3dd5f24c477c42557a60182a8b9d"
+    },
+    {
+      "pageId": "111213189990816",
+      "encryptedToken": "28d5d4a30cb7ec6c27067d25:06cb3b4319b5ceace01a86683d9fc6b8:40cdd9fcba9991b28bf7b32dfe77799072652c3c570b5a789c1fd7a6f64825206cef8a2af880e3735d7de4"
+    },
+    {
+      "pageId": "121314190001826",
+      "encryptedToken": "21c30f988fcf64c3e571f5b6:70675b37c119ac29b3c3eff7bbedd71e:47d00092257e077b2197b79cd8a59bdef84d26c97294b4d6b2c6f7e82abbb129c3c45f1ee57856f6d04269"
+    }
+  ]
+}
